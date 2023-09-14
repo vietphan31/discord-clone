@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate:db": "dotenv -e .env.local -- npx prisma migrate dev"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.23.5",
+    "@prisma/client": "^5.3.0",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@types/node": "20.6.0",
@@ -30,5 +32,9 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.3.0",
+    "prisma": "^5.3.0"
   }
 }
