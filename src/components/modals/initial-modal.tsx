@@ -1,9 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import axios from "axios";
 
 import {
   Dialog,
@@ -33,6 +35,8 @@ const formSchema = z.object({
 type FormServer = z.infer<typeof formSchema>;
 
 export function InitialModal() {
+  const router = useRouter();
+
   const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm({
@@ -47,7 +51,10 @@ export function InitialModal() {
 
   const onSubmit = async (values: FormServer) => {
     try {
-      console.log(values);
+      await axios.post("/api/servers", values);
+      form.reset();
+      router.refresh();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
