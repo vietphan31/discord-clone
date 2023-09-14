@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +24,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
-import { baseApiService } from "@/api/api-service";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Server name is required." }),
@@ -35,8 +33,6 @@ const formSchema = z.object({
 type FormServer = z.infer<typeof formSchema>;
 
 export function InitialModal() {
-  const router = useRouter()
-
   const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm({
@@ -51,10 +47,7 @@ export function InitialModal() {
 
   const onSubmit = async (values: FormServer) => {
     try {
-      await baseApiService.post("server", values);
-      form.reset();
-      router.refresh()
-      window.location.reload()
+      console.log(values);
     } catch (error) {
       console.log(error);
     }
