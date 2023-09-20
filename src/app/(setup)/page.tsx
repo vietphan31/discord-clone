@@ -21,7 +21,6 @@ export default async function SetupPage() {
 
   return (
     <div>
-      Create
       <InitialModal />
     </div>
   );

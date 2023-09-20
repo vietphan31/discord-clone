@@ -1,12 +1,14 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import axios from "axios";
 
+import { FileUpload } from "@/components/file-upload";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -24,20 +26,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { FileUpload } from "@/components/file-upload";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Server name is required." }),
-  imageUrl: z.string().min(1, { message: "Server Image is required." }),
+  name: z.string().min(1, {
+    message: "Server name is required.",
+  }),
+  imageUrl: z.string().min(1, {
+    message: "Server image is required.",
+  }),
 });
 
-type FormServer = z.infer<typeof formSchema>;
-
-export function InitialModal() {
-  const router = useRouter();
-
+export const InitialModal = () => {
   const [isMounted, setIsMounted] = useState(false);
+
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -49,7 +51,7 @@ export function InitialModal() {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: FormServer) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.post("/api/servers", values);
       form.reset();
@@ -65,13 +67,14 @@ export function InitialModal() {
   }, []);
 
   if (!isMounted) return null;
+  ``;
 
   return (
     <Dialog open>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Customize your header
+            Customize your server
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
             Give your server a personality with a name and an image. You can
@@ -80,7 +83,7 @@ export function InitialModal() {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="space-y-8 space-x-8">
+            <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField
                   control={form.control}
@@ -103,7 +106,7 @@ export function InitialModal() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-50 dark:text-secondary/70">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
                       Server name
                     </FormLabel>
                     <FormControl>
@@ -129,4 +132,4 @@ export function InitialModal() {
       </DialogContent>
     </Dialog>
   );
-}
+};
