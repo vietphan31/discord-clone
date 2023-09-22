@@ -68,7 +68,8 @@ export const InviteModal = () => {
             <Input
               disabled={isLoading}
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-              defaultValue={inviteUrl}
+              value={inviteUrl}
+              readOnly
             />
             <Button disabled={isLoading} onClick={onCopy} size="icon">
               {copied ? (
