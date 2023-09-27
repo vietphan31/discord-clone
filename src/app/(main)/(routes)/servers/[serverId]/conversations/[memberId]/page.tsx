@@ -7,6 +7,7 @@ import { ChatMessages } from "@/components/chat/chat-messages";
 import { getOrCreateConversation } from "@/lib/conversation";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { MediaRoom } from "@/components/media-room";
 
 interface MemberIdPageProps {
   params: {
@@ -61,9 +62,9 @@ const MemberIdPage = async ({ params, searchParams }: MemberIdPageProps) => {
         serverId={params.serverId}
         type="conversation"
       />
-      {/* {searchParams.video && (
+      {searchParams.video && (
         <MediaRoom chatId={conversation.id} video={true} audio={true} />
-      )} */}
+      )}
       {!searchParams.video && (
         <>
           <ChatMessages
